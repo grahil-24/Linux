@@ -577,3 +577,17 @@ We can make changes by adding an -i option like -
 		- this wont actually run. 
 		- To execute a command like this successfully, wrap the command which we want to run every two seconds in ''. Eg: 
 			watch 'ls -lh | grep leetcode'
+
+
+26. Head and Tail - Head shows the first 10 lines and tail the last 10 lines by default. 
+
+		Eg: head {path_to_file}
+
+	 to view some other number of lines other than 10, we can use the -n option 
+	 Eg: head -n 25 /var/log/syslog
+
+
+	-> tail command has an option -f, which is specific to the tail command. 
+
+			Eg: tail -f /var/log/boot.log
+			-f is for follow. After execution, it does not return to the session. When the file gets updated, tail displays the updated content. 
