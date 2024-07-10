@@ -560,3 +560,20 @@ We can make changes by adding an -i option like -
   to view a particular section use the command - man {section_number} {command}
 		Eg: man 2 ls
 
+
+
+25. Watch  - Executes a command every 2 seconds. Eg:  watch ls
+		Executes the ls command every 2 seconds. A good example is - watch free -m 
+		which updates and displays the amount of memory free every 2 seconds. 
+
+		Eg: watch -d free -m 
+				-d option highlights anything that changes. 
+
+	 - We can change after how much time the command will be rerun by using the -n option. Eg: watch -d -n 0.5 free -m. This will execute the free -m command every 0.5 seconds. 
+
+
+	-> Watch with a command which contains pipeline or redirects - 
+			watch ls -lh | grep leetcode
+		- this wont actually run. 
+		- To execute a command like this successfully, wrap the command which we want to run every two seconds in ''. Eg: 
+			watch 'ls -lh | grep leetcode'
