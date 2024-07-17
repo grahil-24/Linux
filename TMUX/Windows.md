@@ -1,0 +1,4 @@
+- to create a new window inside tmux, use the command - "tmux new-window" or prefix + c
+- to cycle through windows prefix + n (next) or prefix + p(previous)
+- to close a window - prefix + & and press y when prompted
+- to rename a window - prefix + ,
