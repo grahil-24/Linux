@@ -85,3 +85,16 @@ their default format is yaml. It is sort of a script, like dockerfile, telling a
         state: latest
         update_cache: yes
       when: ansible_distribution in ["CentOS", "Amazon", "Fedora", "RedHat"]
+
+
+3. Replace dnf with package: If we keep it dnf, it will fail on servers, which do not have dnf as their package manager. "package" is the generic ansible package manager. Ansible automatically sets it to the server's package manager, and hence task can run on almost any server irrespective of the package manager. 
+
+	Eg: 
+
+		- name: install httpd and php package and update repository index
+	      package:
+	        name: 
+	          - "{{apache_package}}"
+	          - "{{php_package}}"
+	        state: latest
+	        update_cache: yes
