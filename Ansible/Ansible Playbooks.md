@@ -25,4 +25,63 @@ their default format is yaml. It is sort of a script, like dockerfile, telling a
 
 -> We can also remove packages: 
 	- just change the state from latest to absent
-	
+
+
+=> When conditionals : 
+
+		what if some of our servers were Red hat based and some debian, we cant run tasks having dnf on both of them right? This is where when conditionals comes in 
+
+		  --- 
+
+		  - hosts: all
+		    become: true
+		    tasks: 
+			    -name: install httpd package
+				 dnf: 
+					 name: httpd
+					 state: latest
+				 when: ansible_distribution == "Fedora"
+
+	- This runs the task only when the server is fedora based.  We can also provide multiple distriubtion. Eg: 
+
+		when: ansible_distribution in ["Amazon", "RedHat",  "CentOS", "Fedora"]
+
+
+
+-> we can have many arguments in when. Just use the gather_facts command to get info of server(s) against which we can use conditional stmts. 
+
+
+
+=> Improving your playbook - 
+	1. If you want to install more than one package. We dont need to create seperate tasks for both of them. Both can be done in one. for eg: 
+
+			tasks: 
+				-name: installing httpd and php package
+				dnf:
+					name: 
+						-httpd
+						 -php
+					 state: latest
+
+
+	2. Variables in anisble - 
+			to use variables, we need to add them in inventory file 
+
+
+			[dbservers]
+			13.126.58.81 ansible_ssh_user=ec2-user apache_package=httpd php_package=php
+			3.111.144.225 ansible_ssh_user=ec2-user 
+
+
+			 - hosts: all
+			  become: true
+	  tasks:
+
+    - name: install httpd and php package and update repository index
+      dnf:
+        name: 
+          - "{{apache_package}}"
+          - "{{php_package}}"
+        state: latest
+        update_cache: yes
+      when: ansible_distribution in ["CentOS", "Amazon", "Fedora", "RedHat"]
