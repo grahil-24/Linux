@@ -466,7 +466,7 @@ We can make changes by adding an -i option like -
 		2. swap - isnt being overly utilized. 
 
 
-22. lsof - 
+22. lsof - **ify group ownership**
 		list open files. 
 		Eg: lsof | head
 				PID - process ID 
@@ -591,3 +591,22 @@ We can make changes by adding an -i option like -
 
 			Eg: tail -f /var/log/boot.log
 			-f is for follow. After execution, it does not return to the session. When the file gets updated, tail displays the updated content. 
+
+
+
+26  umask : 
+	defines the default permissions a newly created file would have. 
+		Eg: umask 022 (which is the default in almost all the distros)
+		- this digits denote the permissions to be excluded and not included as in chmod -command
+
+
+
+27. sticky bit - 
+
+		depicted by t. means only the owner or root can delete the file or dir. To add this to a file or dir - 
+
+
+	Eg: sudo chmod +t {obj}
+
+- numerical representation of sticky bit - 1
+- 
