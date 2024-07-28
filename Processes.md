@@ -53,7 +53,10 @@ You'll notice you're seeing a lot more fields now, no need to memorize them all,
 - COMMAND: Name of executable/command
 
 
-	
+=> Process termination - 
+	A process can exit, using the \_exit system call, this will free up the resources, the process was using. It lets, the system know why it was being terminated, with the help of a termination status. 
+
+
 => Controlling Terminal - 
 
 The TTY is the terminal that executed the command. There are two types of terminals, regular **terminal devices** and **pseudoterminal devices**. A regular terminal device is a native terminal device that you can type into and send output to your system, this sounds like the terminal application you've been launching to get to your shell, but it's not.
