@@ -58,3 +58,70 @@ df -T
 		i. Has only one type of partition, and many of them can be created
 		ii. Each partition has a globally unique ID (GUID)
 		iii. Used mostly in conjunction with UEFI based booting.  
+
+
+=> Filesystem structure - 
+
+1. Boot block - This is located in the first few sectors of the file system. It contains info to boot the OS. 
+2. Super block - Comes after the boot block. It is a single block and contains info about the file system, size of fs, size of inode, size of logical blocks etc. 
+3. Inode table - 
+4. Data blocks - actual data for files and directories. 
+
+
+<h4> Disk Partitioning: </h4>
+Many tools available to partition a disk - 
+	1. parted, gparted - both GPT and MBR
+	2. fdisk - does not support GPT
+	3. gdisk - fdisk, but only supports GPT
+
+-> Using parted - 
+		1. Launch parted using - sudo parted
+		2. select device you want to partition using 
+				select {device_name}
+				Eg: select /dev/sda1
+		3. to partition the device - 
+				mkpart primary 123(starting sector) 4567(ending sector)
+
+
+<h5>Creating a file system:</h5>
+	eg: sudo mkfs -t ext4 /dev/sda1
+
+			mkfs - make filesystem, allows us to create a type of filesystem in a partition of our choosing.
+
+
+<h5>Mounting and unmounting</h5>
+	We have to mount a file system, before we can view the contents inside it. For this we need to know two things - the file system type and the mount point 
+
+
+		- Mount point is a directory on our system where the filesystem is going to be attached 
+
+	Eg: 
+		sudo mount -t ext4 /dev/sda1 /mydrive
+
+
+- to unmount - 
+		sudo umount /mydrive
+		or 
+		sudo umount /dev/sda1
+
+- Kernel also generates a unique UUID (universally unique ID) for the device. If the name of the device changes, it doesnt matter, the UUID remains the same. To know the UUID of all block devices - 
+			sudo blkid
+
+<h5>Inodes: </h5>
+Index node. Entry table. Contains entry for every file in the filesystem. 
+
+- File type - regular file, directory, character device, etc
+- Owner
+- Group
+- Access permissions
+- Timestamps - mtime (time of last file modification), ctime (time of last attribute change), atime (time of last access)
+- Number of hardlinks to the file
+- Size of the file
+- Number of blocks allocated to the file
+- Pointers to the data blocks of the file - most important!
+
+Basically inodes store everything about the file, except the filename and the file itself!
+
+-> When are inodes created? 
+
+	
