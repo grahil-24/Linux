@@ -107,3 +107,59 @@ Some processes are bound to a terminal. If we close that terminal, the process g
 	3. D: uninterruptable sleep, processes, that cannot be killed or interrupted with a signal. 
 	4. Z: zombie process. terminated processes, waiting for their statuses to be collected
 	5. T: process that has been suspended or stopped. 
+
+
+
+<h4>=> Process Utilization: </h4>
+1. Tracking processes (Top): 
+
+	top - 22:46:07 up 36 min,  1 user,  load average: 0.47, 0.50, 0.46
+Tasks: 402 total,   1 running, 400 sleeping,   0 stopped,   1 zombie
+%Cpu(s):  0.4 us,  0.4 sy,  0.0 ni, 98.6 id,  0.0 wa,  0.5 hi,  0.1 si,  0.0 st 
+MiB Mem :   7275.5 total,    477.8 free,   4204.8 used,   2987.7 buff/cache     
+MiB Swap:   7275.0 total,   6578.5 free,    696.5 used.   3070.7 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                
+   2752     rahil           20   0  6098616  154196  67848 S     4.3       2.1         2:08.07 gnome-shell                                                                                            
+   5989      rahil          20   0 1687280     52116   30916 S     1.3       0.7        0:02.95    kitty 
+
+
+First line - shows the current time, uptime, how many users are logged in and system load(average)
+
+Second line - tasks that are running, sleeping, stopped, zombied
+
+Third line - CPU info
+- us: user CPU time - Percentage of CPU time spent running users’ processes that aren’t niced.
+- sy: system CPU time - Percentage of CPU time spent running the kernel and kernel processes
+- ni: nice CPU time - Percentage of CPU time spent running niced processes
+- id: CPU idle time - Percentage of CPU time that is spent idle
+- wa: I/O wait - Percentage of CPU time that is spent waiting for I/O. If this value is low, the problem probably isn’t disk or network I/O
+- hi: hardware interrupts - Percentage of CPU time spent serving hardware interrupts
+- si: software interrupts - Percentage of CPU time spent serving software interrupts
+- st: steal time - If you are running virtual machines, this is the percentage of CPU time that was stolen from you for other tasks
+
+-------------------------------------------------------------------
+**Note: What are nice and un-nice processes?** 
+
+	A "niced" process is one that has been run with the `nice` command (or whose niceness has been changed by `renice`) and an "un-niced" process is one that hasn't been run with `nice`. The default nice values for regular processes (those which haven't been run with `nice command` or whose niceness hasn't subsequently been changed by `renice PID`) is 0. So, "un-niced" processes are those with a nice value of 0 and "niced" processes are those with a nice value != 0.
+------------------------------------------------------------------------
+
+4th and 5th line - Memory and Swap usage
+
+**Processes List that are Currently in Use**
+
+1. PID: Id of the process
+2. USER: user that is the owner of the process
+	1. PR: Priority of process
+3. NI: The nice value
+4. VIRT: Virtual memory used by the process
+5. RES: Physical memory used from the process
+6. SHR: Shared memory of the process
+7. S: Indicates the status of the process: S=sleep, R=running, Z=zombie,D=uninterruptible,T=stopped
+8. %CPU - this is the percent of CPU used by this process
+9. %MEM - percentage of RAM used by this process
+10. TIME+ - total time of activity of this process
+11. COMMAND - name of the process
+
+
+12. 
