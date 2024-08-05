@@ -50,6 +50,44 @@ Intird vs Initramfs:
 Three major implementations of init in linux - 
 
 1. System v init (sysv): This is the traditional init system. It sequentially starts and stops processes, based on startup scripts. The state of the machine is denoted by runlevels, each runlevel starts or stops a machine in a different way.
+2.  upstart: This is the init you'll find on older Ubuntu installations. Upstart uses the idea of jobs and events and works by starting jobs that performs certain actions in response to events.
+3.  systemd:  New standard for init, which is goal oriented. Basically there are goals, which systemd tries to achieve by satisfying the goal's dependecies. 
 
-2. upstart: This is the init you'll find on older Ubuntu installations. Upstart uses the idea of jobs and events and works by starting jobs that performs certain actions in response to events.
-4. systemd:  New standard for init, which is goal oriented. Basically there are goals, which systemd tries to achieve by satisfying the goal's dependecies. 
+
+
+<h4>Types of Init processes in linux: </h4>
+<h5>1. System V </h5>
+
+To find out if you are using the Sys V init implementation, if you have an /etc/inittab file you are most likely running Sys V.
+
+Sys V starts and stops processes sequentially, so let's say if you wanted to start up a service named foo-a, well before foo-b can work, you have to make sure foo-a is already running. Sys V does that with scripts, these scripts start and stop services for us, we can write our own scripts or most of the time use the ones that are already built in the operating system and are used to load essential services
+
+The pros of using this implementation of init, is that it's relatively easy to solve dependencies, since you know foo-a comes before foo-b, however performance isn't great because usually one thing is starting or stopping at a time.
+
+When using Sys V, the state of the machine is defined by runlevels which are set from 0 to 6. These different modes will vary depending on the distribution, but most of the time will look like the following:
+
+- 0: Shutdown
+- 1: Single User Mode
+- 2: Multiuser mode without networking
+- 3: Multiuser mode with networking
+- 4: Unused
+- 5: Multiuser mode with networking and GUI
+- 6: Reboot
+
+When your system starts up, it looks to see what runlevel you are in and executes scripts located inside that runlevel configuration. The scripts are located in **/etc/rc.d/rc[runlevel number].d/** or **/etc/init.d**. Scripts that start with S(start) or K(kill) will run on startup and shutdown, respectively. The numbers next to these characters are the sequence they run in.
+To find out what runlevel your machine is booting into, you can see the default runlevel in the /etc/inittab file. You can also change your default runlevel in this file as well.
+
+
+<h5>2. Upstart</h5>
+Developed by canonical to be an improvement over the existing system v. Newer version of ubuntu have shifted to Systemd. Upstart was created to improve upon the issues with Sys V, such as the strict startup processes, blocking of tasks, etc. Upstart's event and job driven model allow it to respond to events as they happen.
+To find out if you are using Upstart, if you have a /usr/share/upstart directory that's a pretty good indicator.
+Jobs are the actions that Upstart performs and events are messages that are received from other processes to trigger jobs. To see a list of jobs and their configuration:
+
+The way that Upstart works is that:
+
+1. First, it loads up the job configurations from /etc/init
+2. Once a startup event occurs, it will run jobs triggered by that event.
+3. These jobs will make new events and then those events will trigger more jobs
+4. Upstart continues to do this until it completes all the necessary jobs
+
+
