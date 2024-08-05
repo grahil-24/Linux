@@ -91,3 +91,54 @@ The way that Upstart works is that:
 4. Upstart continues to do this until it completes all the necessary jobs
 
 
+<h5>3. Systemd: </h5>
+
+Systemd uses goals to get your system up and running. Basically you have a target that you want to achieve and this target also has dependencies that we need to achieve. Systemd is extremely flexible and robust, it does not follow a strict sequence to get processes started. Here's what happens during the typical systemd boot:
+
+1. First, systemd loads its configuration files, usually located in /etc/systemd/system or /usr/lib/systemd/system
+2. Then it determines its boot goal, which is usually default.target
+3. Systemd figures out the dependencies of the boot target and activates them
+
+Similar to Sys V runlevels, systemd boots into different targets:
+
+- poweroff.target - shutdown system
+- rescue.target - single user mode
+- multi-user.target - multiuser with networking
+- graphical.target - multiuser with networking and GUI
+- reboot.target - restart
+
+
+-> Systemd goals: 
+
+	Here is a basic service unit file: foobar.service
+
+  
+	[Unit]
+	  
+	Description=My Foobar
+	  
+	Before=bar.target
+	
+	[Service]
+	  
+	ExecStart=/usr/bin/foobar
+
+	[Install]
+	  
+	WantedBy=multi-user.target
+
+This is a simple service target, at the beginning of the file we see a section for [Unit], this allows us to give our unit file a description as well as control the ordering of when to activate the unit. The next portion is the [Service] section, under here we can start, stop or reload a service. And the [Install] section is used for dependency.
+
+
+- to list all units - 
+		systemctl list-units
+
+- to view status of a unit
+		systemctl status NetworkManager
+- to start a service
+		sudo systemctl start NetworkManager
+
+- to stop its systemctl stop
+- restart - systemctl restart
+- enable - systemctl enable
+- disable - systemctl disable
