@@ -1,4 +1,4 @@
-
+	
 When the system boots up, the kernels creates a process called **init** (or sometimes systemd), it has a PID of 1. The init process can't be terminated unless the system shuts down. It runs with root privileges and runs many processes that keep the system running.
 
 Everything in linux is a file. Even the processes. They are stored in a file system called /proc.
@@ -162,4 +162,58 @@ Third line - CPU info
 11. COMMAND - name of the process
 
 
-12. 
+-> lsof and fuser - 
+
+	1. lsof - To see what is in use by a process, you can use the lsof command (short for "list open files") this will show you a list of all the open files and their associated process.
+
+	2. fuser - Another way to track a process is the fuser command (short for "file user"), this will show you information about the process that is using the file or the file user.
+
+
+<h4>Process threads: </h4>
+
+aka lightweight processes. 
+If a process has one thread it is single-threaded and if a process has more than one thread it is multi-threaded. However, all processes have at least one thread. Processes operate with their own isolated system resources, however threads can share these resources among each other easily, making it easier for them to communicate among each other and at times it is more efficient to have a multi-threaded application than a multi-process application.
+
+To view process threads we can use the command - ps m. The processes are denoted with each PID and underneath the processes are their threads (denoted by a --). 
+
+<h4>CPU Monitoring:</h4>
+
+uptime is a good command for CPU monitoring. Load averages are good way to see the CPU load on your system. These numbers represent the average CPU load in 1, 5, and 15 minute intervals. The CPU load is the average number of processes that are waiting to be executed by the CPU. 
+
+uptime
+ 23:16:52 up  1:54,  1 user,  load average: 1.82, 2.01, 2.01
+
+
+
+The max load is determined the number of cores in cpu. For eg: if its a single core, the max load the CPU can reach is 1. If dual core then 2 and so on. To view the number of cores in your cpu - 
+
+		cat /proc/cpuinfo
+
+
+<h4>IO Monitoring: </h4>
+
+iostat. 
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          10.65    0.00    4.60            0.12      0.00   84.62
+
+Device             tps         kB_read/s    kB_wrtn/s    kB_dscd/s     kB_read    kB_wrtn    kB_dscd
+nvme0n1         130.38      1203.90      1097.41       3127.72    8553378    7796797   22221544
+zram0             145.69       114.70         468.20          0.00          814912      3326428          0
+
+- %user - Show the percentage of CPU utilization that occurred while executing at the user level (application)
+- %nice - Show the percentage of CPU utilization that occurred while executing at the user level with nice priority.user CPU utilization with nice priorities
+- %system - Show the percentage of CPU utilization that occurred while executing at the system level (kernel).
+- %iowait - Show the percentage of time that the CPU or CPUs were idle during which the system had an outstanding disk I/O request.
+- %steal - Show the percentage of time spent in involuntary wait by the virtual CPU or CPUs while the hypervisor was servicing another virtual processor.
+- %idle - Show the percentage of time that the CPU or CPUs were idle and the system did not have an outstanding disk I/O request.
+
+- tps - Indicate the number of transfers per second that were issued to the device. A transfer is an I/O request to the device. Multiple logical requests can be combined into a single I/O request to the device. A transfer is of indeterminate size.
+- kB_read/s - Indicate the amount of data read from the device expressed in kilobytes per second.
+- kB_wrtn/s - Indicate the amount of data written to the device expressed in kilobytes per second.
+- kB_read - The total number of kilobytes read.
+- kB_wrtn - The total number of kilobytes written.
+
+
+<h4>Memory Monitoring:</h4>
+
