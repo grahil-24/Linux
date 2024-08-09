@@ -217,3 +217,33 @@ zram0             145.69       114.70         468.20          0.00          8149
 
 <h4>Memory Monitoring:</h4>
 
+vmstat
+
+procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+ r  b    swpd       free         buff     cache       si    so     bi       bo     in       cs  us  sy   id   wa st gu
+ 0  1  1742336 1219852    308   1955288  290  718  2184  1722 9301   10   4    2    94   0  0  0
+
+
+Different fields are as follows - 
+1. procs - 
+	a. r - number of processes for run time
+	b. b - number of processes in uninterruptible sleep
+2. memory - 
+	a. swpd - amount of virtual memory used
+	b. free - amount of free memory
+	c. buff - amount of memory used as buffers
+	d. cache - amount of memory used as cache
+3. swap - 
+	a. si - amount of memory swapped in from disk
+	b. so - amount of memory swapped out to disk
+4. io - 
+	a. bi - Amount of blocks received in from a block device
+	b. bo - Amount of blocks sent out to a block device
+5. system - 
+	a. in - number of interrupts per second
+	b. cs - number of context switches per second
+6. cpu -
+	a . us - Time spent in user time
+	b. sy - Time spent in kernel time
+	c. id - Time spent idle
+	d. wa - Time spent waiting for IO
