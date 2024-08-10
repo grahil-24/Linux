@@ -1,0 +1,6 @@
+
+Eg: We want to send an email to Tom. 
+
+Packets are used to transmit data across networks. A packet consists of payload and header. The packet contains info about where it came from and where its going to. Payload is the actual data. As our packet travels through the network, each layer adds a bit more info to the header. Different layers call packet with different name. In transport it is referred to as 'segment' and in link layer 'frame'.
+
+First we start in the Application Layer. When we send our email through our email client, the application layer will encapsulate this data.  The application layer talks to the transport layer through a specified port and through this port it sends its data. We want to send an email through the application layer protocol SMTP (simple mail transfer protocol). The data is sent through our transport protocol which opens a connection to this port (port 25 is used for SMTP), so we get this data sent through this port and that data is sent to the Transport layer to be encapsulated into segments.
