@@ -45,3 +45,40 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use    Iface
 
 
 5. Iface - Interface that the packet will be going out of. 
+
+
+<h4>Path of a packet</h4>
+<h5> i. Within a local network </h5>
+1. First the local machine will compare the ip address to see if its in the same subnet by checking the subnet mask. 
+2. We need the source IP and MAC, destination IP and MAC for the packet to be sent, but at this point we dont have the destination MAC address. 
+3. So we send a ARP to broadcast a request on the local network to find the destination MAC address. 
+4. Now the packet can be sent successfully. 
+
+
+<h5>ii. Outside the local network </h5>
+1. First the local machine will compare the destination IP address, since its outside of our network, it does not see the MAC address of the destination host. And we can't use ARP because the ARP request is a broadcast to locally connected hosts.
+2. So our packet now looks at the routing table, it doesn't know the address of the destination IP, so it sends it out to the default gateway (another router). So now our packet contains our source IP, destination IP and source MAC, however we don't have a destination MAC. Remember MAC addresses are only reached through the same network. So what does it do? It sends an ARP request to get the MAC address of the default gateway.
+3. The router looks at the packet and confirms the destination MAC address, but it's not the final destination IP address, so it keeps looking at the routing table to forward the packet to another IP address that can help the packet move along to its destination. Everytime the packet moves, it strips the old source and destination MAC address and updates the packet with the new source and destination MAC addresses.
+4. Once the packet gets forwarded to the same network, we use ARP to find the final destination MAC address
+5. During this process, our packet doesn't change the source or destination IP address.
+
+
+
+<h1>Routing Protocols</h1>
+Routing protocols are used to help our system adapt to network changes, it learns of different routes, builds them in the routing table and then routes our packets through that way. There are two primary routing protocol types, distance vector protocols and link state protocols.
+
+<h3>1. Distance vector protocol</h3>
+Distance vector protocols determine the path of other networks using the hop count a packet takes across the network. If network A was 3 hops away and network B was next to network A, then we assume it must be 4 hops away. In distance vector protocols, the next route would be the one with the least amount of hops.
+
+Distance vector protocols are great for small networks, when networks start to scale it takes longer for the routers to converge because it periodically sends the entire routing table out to every router. Another downside to distance vector protocols is efficiency, it chooses routes that are closer in hops, but it may not always choose the most efficient route.
+
+One of the common distance vector protocols is RIP (Routing Information Protocol), it broadcasts the routing table to every router in the network every 30 seconds. For a large network, this can take some serious juice to pull off, because of that RIP limits it's hop count to 15.
+
+<h3>2. Link State protocol</h3>
+Link state protocols are great for large scale networks, they are more complex than distance vector protocols, however a large upside is their ability to converge quickly, this is because instead of periodically sending out the whole routing table, they only send updates to neighboring routes. They use a different algorithm to calculate the shortest path first and construct their network topology in the form of a graph to show which routers are connected to other routers.
+
+One of the common link state protocols is OSPF (Open Shortest Path First), it only updates the routing tables if there was a network change. It doesn't have a hop limit.
+
+
+<h3>3. Border Gateway Protocol </h3>
+
