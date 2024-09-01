@@ -62,3 +62,75 @@ by default localhost address is always present in this file.  You can also block
 <h4>/etc/resolv.conf</h4>
 
 Quite an irrelevant file nowadays. It isnt manually managed anymore. It is used to map DNS nameservers  for more efficient lookups. 
+
+
+<h4>DNS Tools: </h4>
+
+<h5>1. nslookup</h5>
+name server lookup. Eg: nslookup www.google.com
+
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	www.google.com
+Address: 142.250.183.4
+Name:	www.google.com
+Address: 2404:6800:4009:820::2004
+
+This output shows how your computer resolves the domain name `www.google.com` to its IP addresses. Let’s break down the details:
+ 1. **Server: 127.0.0.53**
+
+- This indicates that your computer is using a local DNS server at the IP address `127.0.0.53` to perform the DNS query.
+- The IP `127.0.0.53` is a loopback address, meaning it refers back to your own machine. This is common in modern systems where a local DNS resolver (like `systemd-resolved` on Linux) is used to handle DNS queries internally.
+
+2. **Address: 127.0.0.53#53**
+
+- The `#53` refers to the port number being used for the DNS query. Port 53 is the standard port for DNS services.
+- This line confirms that the DNS request is being sent to the local DNS resolver on your machine.
+
+ 3. **Non-authoritative answer:**
+
+- This means the response you received is not directly from Google's authoritative DNS servers but from a DNS server (likely your local DNS server or a DNS cache) that had cached the response.
+- A **non-authoritative answer** is a response that comes from a DNS server that got the information from another server, rather than the original source.
+
+
+<h5>2. dig </h5>
+Dig (domain information groper) is a powerful tool for getting information about DNS name servers, it is more flexible than nslookup and great for troubleshooting DNS issues.
+
+
+-> We can also do a mail server lookup - 
+	dig hsploit.com -t mx
+
+
+-> For name server lookup - 
+	dig hsploit.com -t ns
+
+
+-> For ipv6 lookup - AAAA records need to be fetched
+
+Eg: dig hsploit.com -t AAAA
+
+-> cname lookup - 
+	canonical name record. Its used to map one domain to another. 
+
+-> to get a shorter, sort of relevant output, +short can be used - 
+		Eg: dig hsploit -t ns +short
+		Output: dee.ns.cloudflare.com.
+			    jim.ns.cloudflare.com.
+
+
+
+<h5>3.  host</h5>
+very simple tool. resolves ip address and also sometimes the mail server.
+Eg: host google.com
+google.com has address 142.250.183.206
+google.com has IPv6 address 2404:6800:4009:82b::200e
+google.com mail is handled by 10 smtp.google.com.
+
+We can also get the nameserver using host. Eg: host -t ns hsploit.com
+
+hsploit.com name server dee.ns.cloudflare.com.
+hsploit.com name server jim.ns.cloudflare.com.
+
+We can also get the mail server a domain is using by - host -t mx hsploit.com
