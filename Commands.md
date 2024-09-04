@@ -1,4 +1,5 @@
 
+
 1. usermod
 		To modify a user. that is add a user to a group etc. 
 
@@ -15,7 +16,6 @@
 -  sudo usermod -L username
 
 		locks out the user. To unlock user use -U flag instead of -L
-
 
 
 2. Sudo 
@@ -38,13 +38,10 @@
 				- in sudoers file we can mention what privileges do users have for what users and groups and what commands they can run with sudo 
 
 
-
-
 3. Htop 
 
 		- sigterm(15) - cleanly kills a process. 
 		- sigkill(9) - forcefully kills a process. Always do sigterm first. if   the process does not respond then do sigkill.
-
 
 
 4. ps 
@@ -96,10 +93,6 @@ To use  a custom delimited we can use the -f option.
 		Eg: awk -F ':' {print $1} /etc/passwd
 
 
-
-
-
-
 6. sed - 
 
 stream editor. to filter and modify text in usually textfiles. 
@@ -113,8 +106,6 @@ replaces every occurence of pineapple with feta in the file but does not actuall
 We can make changes by adding an -i option like - 
 
 	 sed -i 's/Pineapple/Feta/' toppings.txt
-
-
 
 
 7. Systemctl - 
@@ -137,9 +128,6 @@ We can make changes by adding an -i option like -
 
 
 			- all the service configuration files are present in /usr/lib/systemd/system
-
-
-
 
 
 8. Find 
@@ -273,8 +261,6 @@ We can make changes by adding an -i option like -
 			when the server is online, we get response. But when it goes offline, the responses stop, but the command does not exit. When the server comes back online, we start getting the responses. 
 
 
-
-
 13. wget  - to download something from internet to our server without a GUI
 
 
@@ -292,8 +278,6 @@ We can make changes by adding an -i option like -
 
 		to resume an interrupted download- 
 				- wget -c {download_url}
-
-
 
 
 14. df and du commands - 
@@ -332,7 +316,6 @@ We can make changes by adding an -i option like -
 		**NOTE**: a good alternative of du is ncdu
 
 
-
 15. tar and gzip
 
 		tar is used to create archives. It helps to bundle different files into an archive. Similar to zip file. Difference is an archive isnt compressed. Though there is a way to compress a tar file
@@ -366,10 +349,7 @@ We can make changes by adding an -i option like -
 
 		gunzip {zipped file name}
 
-
-
 		**Note** : tar -czf  etc_backup.tar.gz etc. This will first gzip and then tar
-
 
 
 16. cat 
@@ -594,14 +574,14 @@ We can make changes by adding an -i option like -
 
 
 
-26  umask : 
+27.   umask : 
 	defines the default permissions a newly created file would have. 
 		Eg: umask 022 (which is the default in almost all the distros)
 		- this digits denote the permissions to be excluded and not included as in chmod -command
 
 
 
-27. sticky bit - 
+28.  sticky bit - 
 
 		depicted by t. means only the owner or root can delete the file or dir. To add this to a file or dir - 
 
@@ -609,4 +589,35 @@ We can make changes by adding an -i option like -
 	Eg: sudo chmod +t {obj}
 
 - numerical representation of sticky bit - 1
-- 
+
+
+29. file - 
+	to view the file type. eg:
+-> file .zshrc
+ .zshrc: ASCII text
+
+-> file /usr/bin/ls
+/usr/bin/ls: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=40e5a1570a9d97fc48f5c61cfb7690fec0f872b2, for GNU/Linux 3.2.0, stripped
+
+The `file` command determines the platform that the program was compiled for and what types of libraries it requires.
+
+30. more - 
+to view the contents of the file, but in a paginated manner. 
+	Eg: more /etc/profile 
+
+
+
+31. less - more advanced version of the more command. Main advantage is it recognizes the page up and down or the up and down arrow keys to scroll. 
+
+
+32. sort - sorts data. Eg: sort /etc/passwd
+By default it recognizes everything as characters and sorts according to that. But we can change this behaviour by using the -n parameter, which tells sort to recognize  numbers as numbers. 
+We can also sort by date. In log files, there are usually timestamps. To sort by month the -M parameter is used. Some important parameters - 
+
+1. -b - ignore leading blanks
+2. -f - ignore case
+3. -o - write results to an output file 
+4. -R - random sort using hash of keys
+5. -r - order of sort is reversed. Descending instead of ascending
+
+When output contains fields (eg: /etc/passwd file) -t and -k parameters come in handy. -t specifies the field seperator character, and the -k parameter the field number. 
