@@ -621,3 +621,9 @@ We can also sort by date. In log files, there are usually timestamps. To sort by
 5. -r - order of sort is reversed. Descending instead of ascending
 
 When output contains fields (eg: /etc/passwd file) -t and -k parameters come in handy. -t specifies the field seperator character, and the -k parameter the field number. 
+
+
+
+33. sleep - accepts parameter as number of seconds you want the process to wait (Sleep). This command is often used to bring pauses in shell scripts. To put the command in background mode & is appended at the end. Eg: sleep 10&
+
+	When process put into background, process id and background job number is returned. To view jobs running in background, command - jobs.  
