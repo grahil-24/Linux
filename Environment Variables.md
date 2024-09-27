@@ -38,4 +38,18 @@ Unsetting a global env in a child subshell, does not affect it in the parent she
 
 
 <h2>PATH environment variables</h2>
+The `PATH` environment variable defines the directories it searches looking for commands and programs. The directories in the `PATH` are separated by colons. And this shows that there are nine directories where the shell looks for commands and programs. Changes to the `PATH` variable last only until you exit the system or the system reboots. The changes are not persistent
 
+
+<h3> Locating System Environment Variables </h3>
+When we start a bash shell, by logging into linux system, by default Bash checks multiple of files for commands. These are called startup or environment files. When we log into the system, bash starts the login shell, it looks for 5 files - 
+1. /etc/profile`
+2. $HOME/.bash_profile
+3. $HOME/.bashrc
+4. $HOME/.bash_login`
+5. $HOME/.profile
+
+The /etc/profile is the main default startup file for bash shell.  All users on system, execute this when they log in. The other four startup files are specific for each user, located in the home (`$HOME`) directory, and can be customized for an individual user's requirements
+
+<h5> the /etc/profile.d directory </h5>
+when the /etc/profile file is executed, it also executes all the shell scripts present in the /etc/profile.d directory. This is a place where application specific  or admin customized startup files are present, that are executed by the shell when you log in. Most application create two shells - .sh for the bash shell and .csh for the C shell. 

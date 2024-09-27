@@ -134,3 +134,4 @@ hsploit.com name server dee.ns.cloudflare.com.
 hsploit.com name server jim.ns.cloudflare.com.
 
 We can also get the mail server a domain is using by - host -t mx hsploit.com
+
