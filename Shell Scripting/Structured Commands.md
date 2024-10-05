@@ -143,6 +143,87 @@ This category allows you to test the status of files and directories on the Linu
 	`ls` 
 `else`
 	`echo "The $jump_directory directory does NOT exist."` 
-`fi`
+`fi`x
 
 The `-d` test condition checks to see if the `jump_directory` variable's directory exists. If it does, it proceeds to use the `cd` command to change to the current directory and performs a directory listing. If it does not, the script emits a warning message and exits the script.
+
+
+<h5> Checking for a file </h5>
+-e is used to check for both directory or a file while -f is used to check for only a file. 
+
+
+<h5> Checking for read access </h5>
+-r used to check if file has read access. 
+Eg:
+
+`#!/bin/bash` 
+`# Check if you can read a file`
+`#` 
+`pwfile=/etc/shadow`
+`echo`
+`echo "Checking if you can read $pwfile..."` 
+`#` 
+`# Check if file exists and is a file.` 
+`#` 
+`if [ -f $pwfile ]` 
+`then` 
+	`# File does exist. Check if can read it.` 
+	`#` 
+	`if [ -r $pwfile ]`
+	 `then` 
+		 `echo "Displaying end of file..."` 
+		 `tail $pwfile`
+          `#` 
+    `else` 
+	          `echo "Sorry, read access to $pwfile is denied."`
+	`fi`
+	    `#`
+`else` 
+	`echo "Sorry, the $pwfile file does not exist."` 
+`fi`
+
+
+<h5> Checking for empty file </h5>
+-s to check if file is empty or not. If the file has data in it then -s comparison succeeds. 
+
+<h5> Checking whether if we can write to a file </h5>
+The `-w` comparison determines whether you have permission to write to a file.
+
+<h5> Checking if we can run a file </h5>
+-x comparison can be used to see if we can execute a particular file. 
+
+<h5> Checking ownership </h5>
+-O comparison allows us to test whether we are the owner of a file 
+
+<h5> Checking default group membership </h5>
+-G comparison checks the group of a file. It succeeds if it matches the default group of the user. It does not match to all the group the user belongs to, only its default group. 
+
+<h5> Checking file date </h5>
+The last set of comparisons deal with comparing the creation times of two files. This comes in handy when writing scripts to install software. Sometimes, you don't want to install a file that is older than a file already installed on the system.
+
+The `-nt` comparison determines whether a file is newer than another file. If a file is newer, it has a more recent file creation time. The `-ot` comparison determines whether a file is older than another file. If the file is older, it has an older file creation time
+
+`#!/bin/bash` 
+`# Compare two file's creation dates/times` 
+`#`
+`if [ $HOME/Downloads/games.rpm -nt $HOME/software/games.rpm ]
+`then`
+	`echo "The $HOME/Downloads/games.rpm file is newer"` 
+	`echo "than the $HOME/software/games.rpm file."`
+ `#` 
+ `else`
+	  `echo "The $HOME/Downloads/games.rpm file is older"` 
+	  `echo "than the $HOME/software/games.rpm file."` 
+`#` 
+`fi`
+
+
+<h3> Compound testing </h3>
+The `if-then` statement allows you to use Boolean logic to combine tests. You can use these two Boolean operators:
+
+- `[ condition1 ] && [ condition2 ]`
+- `[ condition1 ] || [ condition2 ]`
+
+The first Boolean operation uses the `AND` Boolean operator to combine two conditions. Both conditions must be met for the `then` section to execute.
+The second Boolean operation uses the `OR` Boolean operator to combine two conditions. If either condition evaluates to a `TRUE` condition, the `then` section is executed.
+
