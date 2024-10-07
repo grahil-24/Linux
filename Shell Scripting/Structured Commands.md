@@ -281,3 +281,14 @@ The _double bracket_ command provides advanced features for string comparisons
 `$`
 
 
+<h3> Case Command</h3>
+
+Instead of having to write all the `elif` statements to continue checking the same variable value, you can use the `case` command. The `case` command checks multiple values of a single variable in a list-oriented format:
+
+`case _variable_ in`
+`_pattern1_ | _pattern2_) _commands1_;;`
+`_pattern3_) _commands2_;;` 
+`*) _default commands_;;` 
+`esac`
+
+
