@@ -227,3 +227,57 @@ The `if-then` statement allows you to use Boolean logic to combine tests. You ca
 The first Boolean operation uses the `AND` Boolean operator to combine two conditions. Both conditions must be met for the `then` section to execute.
 The second Boolean operation uses the `OR` Boolean operator to combine two conditions. If either condition evaluates to a `TRUE` condition, the `then` section is executed.
 
+<h4> Working with Advanced if-then features </h4>
+1. Single parentheses for running the command in a subshell
+
+	Before the Bash shell executes the _`_command_`_, it creates a subshell in which to run the command. If the command completes its task successfully, the exit status is set to zero, and the commands listed under the `then` section are executed. If the exit status of the command is anything else, the `then` commands aren't executed. Eg:
+
+	`#!/bin/bash`
+	 `# Testing a single parentheses condition`
+	 `#` 
+	 `echo $BASH_SUBSHELL` 
+	 `#`
+	 `if (echo $BASH_SUBSHELL)` 
+	 `then` 
+		 `echo "The subshell command operated successfully."` 
+	`#` 
+	`else`
+		`echo "The subshell command was NOT successful."` 
+	`#` 
+	`fi`
+
+
+2.  Double parentheses for mathematical expressions
+	The _double parentheses_ command allows you to incorporate advanced mathematical formulas in your comparisons. The `test` command allows for only simple arithmetic operations in the comparison. The double parentheses command provides more mathematical symbols, which programmers who have used other programming languages may be familiar with using.
+
+		`#!/bin/bash` 
+		`# Testing a double parentheses command` 
+		`#` 
+		`val1=10` 
+		`#` 
+		`if (( $val1 ** 2> 90 ))` 
+		`then` 
+			`(( val2 = $val1 ** 2 ))` 
+			`echo "The square of $val1 is $val2,"` 
+			`echo "which is greater than 90."` 
+		`#` 
+		`fi`
+		
+3. Double square brackets for advanced string handling functions
+
+The _double bracket_ command provides advanced features for string comparisons. Here's the double bracket command format:
+```
+[[ expression ]]
+```
+
+`#!/bin/bash`
+`# Using double brackets for pattern matching` 
+`#`
+`#`
+`if [[ $BASH_VERSION == 5.* ]]`
+`then` 
+	`echo "You are using the Bash Shell version 5 series."` 
+`fi` 
+`$`
+
+
