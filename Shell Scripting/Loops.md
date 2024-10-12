@@ -51,7 +51,76 @@ If you want to specify more than one `IFS` character, just string them togethe
 ```
  IFS=$'\n':;"
 ```
+<h5> Reading a directory using wildcards </h5>
+Finally, you can use the `for` command to automatically iterate through a directory of files. To do this, you must use a wildcard character in the file or pathname. This forces the shell to use _file globbing_. File globbing is the process of producing filenames or pathnames that match a specified wildcard character.
 
 
+<h4> Iterator style for loop </h4>
+#!/bin/bash
+
+for (( a = 1; a < 10; a++ ))
+do      
+        echo $a
+done    
+
+#####  Using multiple variables
+
+The C-style `for` command also allows you to use multiple variables for the iteration. The loop handles each variable separately, allowing you to define a different iteration process for each variable. Although you can have multiple variables, you can define only one condition in the `for` loop:
+
+```
+for (( a=1, b=10; a <= 10; a++, b-- ))
+do
+	echo "$a - $b"
+done
+
+```
+<h2>2. While loop </h2>
+basic structure :
+
+while test command
+do 
+	other commands
+done
+
+The key to the `while` command is that the exit status of the _`_test command_`_ specified must change, based on the commands run during the loop. If the exit status never changes, the `while` loop will get stuck in an infinite loop.
+
+Eg:
+var=10
+while [ $var -gt 0 ]
+do
+	echo $var
+	 var1=$[ $var1 - 1 ]
+done
+
+
+<h3> Nesting Loops </h3>
+A loop statement can use any other type of command within the loop, including other loop commands. This is called a _nested loop_
+`#!/bin/bash`
+`# nesting for loops` 
+`for (( a = 1; a <= 3; a++ ))`
+`do` 
+	`echo "Starting loop $a:"` 
+	`for (( b = 1; b <= 3; b++ ))` 
+	`do` 
+		`echo " Inside loop: $b"` 
+		`done` 
+`done`
+
+
+<h3> Controlling the loop </h3>
+<h4> 1. Break command </h4>
+break out of a loop in progress. Works in any type of loop. 
+Eg: 
+
+`for var1 in 1 2 3 4 5 6 7 8 9 10`
+`do`
+	`if [ $var1 -eq 5 ]`
+	 `then` 
+		 `break` 
+	`fi` 
+	`echo "Iteration number: $var1"` 
+`done`
+
+The `for` loop should normally have iterated through all the values specified in the list. However, when the `if-then` condition was satisfied, the shell executed the `break` command, which stopped the `for` loop.
 
 
