@@ -123,4 +123,73 @@ Eg:
 
 The `for` loop should normally have iterated through all the values specified in the list. However, when the `if-then` condition was satisfied, the shell executed the `break` command, which stopped the `for` loop.
 
+<h5> Breaking out of an outer loop </h5>
+break n
+By default n is 1.  Which helps to break out of the current loop only. If n is set to 2, the break command stops the next level of the outer loop also.
+
+`#!/bin/bash` 
+`# breaking out of an outer loop` 
+`for (( a = 1; a < 4; a++ ))` 
+`do` 
+	`echo "Outer loop: $a"` 
+	`for (( b = 1; b < 100; b++ ))` 
+	`do` 
+		`if [ $b -gt 4 ]` 
+		`then` 
+			`break 2` 
+		`fi` 
+		`echo " Inner loop: $b"` 
+	`done` 
+`done`
+
+
+<h4> Continue command </h4>
+The `continue` command is a way to prematurely stop processing commands inside of a loop but not terminate the loop completely. This allows you to set conditions within a loop where the shell won't execute commands.
+
+`#!/bin/bash` 
+`# using the continue command` 
+`for (( var1 = 1; var1 < 15; var1++ ))` 
+`do` 
+	`if [ $var1 -gt 5 ] && [ $var1 -lt 10 ]` 
+	`then` 
+		`continue` 
+	`fi` 
+	`echo "Iteration number: $var1"` 
+`done`
+
+As with the `break` command, the `continue` command allows you to specify what level of loop to continue with a command-line parameter:
+
+```
+ continue n
+```
+
+<h5> Processing the output of a loop </h5>
+we can pipe the output of the commands in the loop to files. Eg:
+
+```
+for file in /home/rahil/*
+do
+	if [ -d "$file" ] 
+		then 
+		echo "$file is a directory" 
+		elif echo "$file is a file" 
+	fi 
+done> output.txt
+```
+
+Instead of displaying the results on the monitor, the shell redirects the results of the `for` command to the file `output.txt`.
+
+
+The same technique also works for piping the output of a loop to another command:
+
+```
+for state in "North Dakota" Connecticut Illinois Alabama Tennessee
+do
+	echo "$state is the next place to go"
+done | sort
+```
+
+
+
+
 
