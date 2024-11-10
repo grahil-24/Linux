@@ -38,3 +38,73 @@ the `-n` test evaluation is one of the method to check for data in the  command-
 
 If the script requires multiple parameters, checking each one of them gets tedious. so the shell provides a way to get the number of parameters passed using $#. 
 
+
+Eg: getting the last parameter - 
+
+`#!/bin/bash`
+`# Testing grabbing the last parameter` 
+`#` `echo The number of parameters is $#` 
+`echo The last parameter is ${!#}` 
+`exit`
+
+*note*: Inside the {} $ cant be use. use ! instead
+
+<h5> Grabbing all the data </h5>
+the $* and $@ variables provide a good way to access all the parameters. The $* variables treats all the parameters as one parameter.
+The $@ variable treats them as separate words in same string. It allows us to iterate through the values. Mostly accomplished through for loop. 
+Eg: grabbing all params using $@ and looping through them: 
+	#!/bin/bash
+	
+	count=1
+	for param in "$@"
+	do
+		echo "parameter $count is $param"
+		count=$[ $count + 1]
+	done
+	exit
+
+
+<h5> Shift command </h5>
+Shift command helps to manipulate command line parameters.The `shift` command literally shifts the command-line parameters in their relative positions.
+
+When you use the `shift` command, it moves each parameter variable one position to the left by default. Thus, the value for variable `$3` is moved to `$2` , the value for variable `$2` is moved to `$1` , and the value for variable `$1` is discarded (note that the value for variable `$0` , the program name, remains unchanged).
+
+This is another great way to iterate through command-line parameters. You can just operate on the first parameter, shift the parameters over, and then operate on the first parameter again.
+
+eg: 
+	#!/bin/bash
+	echo 
+	echo "using the shift method:"
+	count=1
+	while [ -n "$1" ]
+	do
+		echo "parameter $count is $1"
+		count=$[ $count + 1 ]
+		shift
+	done
+	exit
+
+*note*: When parameter is shifted out, its value is lost, and cant be recovered
+
+Alternatively, you can perform a multiple location shift by providing a parameter to the `shift` command. Just provide the number of places you want to shift: 
+		shift 2
+
+
+<h4> Options </h4>
+rm -r. Here -r is known as an option. They alter the behaviour of a command. 
+
+<h6> processing options:</h6>
+#!/bin/bash
+
+while [ -n "$1" ]
+do
+	case "$1" in
+		-a) echo "found the -a option" ;;
+		-b) echo "found the -b option" ;;
+		*) echo "$1 is not an option" ;;
+	esac
+	shift
+done
+exit
+
+
