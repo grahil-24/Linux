@@ -107,4 +107,59 @@ do
 done
 exit
 
+<h4> Separating options from parameters </h4>
+We need some indication to indicate that user has entered the options and is now entering parameters. usually its '--'
+
+Eg: 
+
+	#!/bin/bash
+	
+	while [ -n "$1" ]
+	do
+		case "$1" in
+			-a) echo "found the -a option" ;;
+			-b) echo "found the -b option" ;;
+			-c) echo "found the -c option" ;;
+			--) shift
+			   break;;
+			*) echo "$1 is not an option" ;;
+		esac
+		shift
+	done
+	
+	echo
+	count=1
+	for param in $@
+	do
+		echo "parameter $count is $param"
+		count=$[ $count + 1 ]
+	done
+	echo
+	exit
+
+
+It is a common practice in Linux to combine options, and if your script is going to be user-friendly, you'll want to offer this feature for your users as well. Fortunately, there's another method for processing options that can help you.
+
+<h3> getopt command </h3>
+A great tool to process command-line options and parameters. 
+
+The command looks something like - 
+
+getopt optstring parameters
+
+where opstring is the key to the process. It denotes the letters which can be used as command line options. and parameters are the options which require  a parameter value.
+
+If you specify a parameter option not in the _`_optstring_`_, by default the `getopt` command produces an error message:
+
+```
+$ getopt ab:cd -a -b BValue -cde test1 test2
+```
+
+If you prefer to just ignore the error messages, use `getopt` with the `-q` option
+
+Eg: 
+	getopt ab:cd -a -b val -c -d param1 param2
+	 -a -b val -c -d -- param1 param2
+
+
 
