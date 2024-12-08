@@ -162,4 +162,78 @@ Eg:
 	 -a -b val -c -d -- param1 param2
 
 
+<h3>2.  Getting user input </h3>
+read command to get the input from the user while the script is running. 
+Eg: 
 
+	#!/bin/bash
+	echo -n "enter your name: "
+	read name
+	echo "your name is $name"
+
+the -n option for echo suppresses the newline character at the end of string, allowing the user to give the input in the same line. 
+
+instead of echo, we can use -p option with read command
+
+```
+read -p "Please enter your age: " age
+```
+
+the `read` command assigns both the first name and last name to the same variable. The `read` command assigns all data entered at the prompt to a single variable, or you can specify multiple variables. Each data value entered is assigned to the next variable in the list. If the list of variables runs out before the data does, the remaining data is assigned to the last variable
+
+<h5> Timing out </h5>
+Can use the -t option to specify timer. After that amount of time, the read command returns a non-zero exit status.
+
+Eg: 
+	#!/bin/bash
+	
+	if read -t 5 -p "enter your name" name
+	then
+		echo "hi $name"
+	else
+		echo "sorry no longer waiting for name"
+	fi
+
+Instead of timing the input, you can also set the `read` command to count the input characters. When a preset number of characters has been entered, the script automatically continues (the user does not have to press the Enter key)
+
+Eg: 
+	
+	#!/bin/bash
+	
+	read -n 1 -p "Do you want to continue [Y/n]? " answer
+	
+	case $answer in 
+		Y | y) echo
+			echo "ok continue on...";;
+		N | n) echo
+			echo "ok exiting..."
+			exit;;
+	esac
+
+
+<h5> Hiding data while user is typing </h5>
+eg: password
+use the -s option with the read command
+
+Eg:
+	
+	#!/bin/bash
+	
+	read -s -p "enter your password" password
+	echo 
+	echo "your password is $password"
+
+
+<h5> Reading from a file </h5>
+Can also use the read command to read data from a file in the linux system. Each call to the read, reads a single line from the file till there are none left. 
+
+Eg: 
+
+	#!/bin/bash
+	
+	count=1
+	cat $HOME/pig_1711018739651.log | while read line
+	do
+		echo "line $count: $line"
+		count=$[ $count + 1 ]
+	done
