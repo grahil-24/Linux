@@ -65,4 +65,91 @@ If a command in your script is interrupted by a signal, using `trap` with a sp
 trap "" SIGINT
 ```
 
+trapping a script exit. We can also trigger some commands to run when our script exits by simply -
+trap $command$ EXIT
+
+Eg: 
+		
+		#!/bin/bash
+		
+		trap "echo Goodbye..." EXIT
+		count=1
+		while [ $count -le 5 ]
+		do
+			echo "Loop #$count"
+			sleep 1
+			count=$[ $count + 1 ]
+		done
+
+This also works if we prematurely exit the script. 
+
+<h4> Modifying or removing a trap </h4>
+To handle the trap differently in different parts of the script, simply reissue the trap. Traps can also be removed by just replacing the command with --.
+
+Eg: 
+	
+	#!/bin/bash
+	
+	trap "echo 'Sorry... Ctrl-C is trapped'" SIGINT
+	count=1
+	while [ $count -le 3 ]
+	do
+		echo "loop #$count"
+		count=$[ $count + 1 ]
+		sleep 1
+	done
+	
+	trap -- SIGINT
+	echo "the trap is now removed"
+	count=1
+	while [ $count -le 3 ]
+	do
+	     echo "Second Loop #$count"
+	     sleep 1
+	     count=$[ $count + 1 ]
+	done
+
+
+After the signal trap is removed, the script handles the `SIGINT` signal in its default manner, terminating the script. However, if a signal is received before the trap is removed, the script processes it per the original `trap` command.
+
+
+<h4> Running scripts in the background </h4>
+Running a shell script in background mode is a fairly easy thing to do. To run a shell script in background mode from the command-line interface, just place an ampersand symbol (`&`) after the command: 
+	./backgroundscript.sh &
+
+it separates the command from the current shell and runs it as a separate background process on the system. The first thing that displays is the line
+```
+[1] 2595
+```
+number in the square bracket is the job number and 2596 is the PID. Be aware that while the background process is running, it still uses the terminal monitor for `STDOUT` and `STDERR` messages. It is a good idea to redirect `STDOUT` and `STDERR` for scripts you will be running in the background to avoid this messy display. background processes is tied to the terminal session terminal. If the terminal session exits, the background process also exits.
+
+<h4> Running scripts without a hangup </h3>
+
+Keep the script running in the background even when the terminal session ends. This can be achieved by using the nohup command. It blocks the incoming SIGHUP signals. This prevents the process from exiting when the terminal session ends.
+
+Eg: nohup $command$
+
+When this command is run, the process created is disassociated from the terminal. So the process also loses the STDERR and STDOUT output links. So, the nohup command saves the output in a file called nohup.out. Usually the nohup.out file is created in the current directory. If not possible, its created in the $HOME directory. 
+
+When running another command using nohup in same directory, the existing nohup.out will be overwritten. 
+
+
+<h4> Controlling the job </h4>
+
+After we send SIGSTP signal (Ctrl + C) to a process. We can either kill it using kill command or restart that process. To restart, we need to send the SIGCONT signal. This process of killing, stopping, starting, resuming jobs is known as 'job control'. 
+
+The `jobs` command uses a few different command-line parameters
+
+| Parameter | Description                                                                               |
+| --------- | ----------------------------------------------------------------------------------------- |
+| `l`       | Lists the PID of the process along with the job number                                    |
+| `-n`      | Lists only jobs that have changed their status since the last notification from the shell |
+| `-p`      | Lists only the PIDs of the jobs                                                           |
+| `-r`      | Lists only the running jobs                                                               |
+| `-s`      | Lists only stopped jobs                                                                   |
+
+
+<h4> Restarting stopped jobs </h4>
+Stopped jobs can be restarted either as background jobs or foreground jobs. Foreground takes over the control of the terminal we're working on. 
+To restart the job in the background mode run bg command. We dont need to pass Job number as parameter to restart a default job, else we need to. To restart a job in the foreground mode, use the fg command. 
 
